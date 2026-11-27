@@ -1,23 +1,30 @@
+
 from sqlalchemy import CheckConstraint, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from Bizpoint.database.base import (
     Base,
     UUIDPrimaryKeyMixin,
-    TimestampMixin, 
+    TimestampMixin,
 )
 
-class Dataset(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+
+class Dataset(
+    UUIDPrimaryKeyMixin,
+    TimestampMixin,
+    Base,
+):
+
     __tablename__ = "datasets"
 
     __table_args__ = (
         CheckConstraint(
-            "source_ttype IN ('synthethic', 'imported')",
-            name="check_datasets_source_type",
+            "source_type IN ('synthetic', 'imported')",
+            name="ck_datasets_source_type",
         ),
         CheckConstraint(
             "status IN ('active', 'archived')",
-            name="check_datasets_status",
+            name="ck_datasets_status",
         ),
     )
 
@@ -34,7 +41,7 @@ class Dataset(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     source_type: Mapped[str] = mapped_column(
         String(30),
         nullable=False,
-        default="synthethic",
+        default="synthetic",
     )
 
     status: Mapped[str] = mapped_column(

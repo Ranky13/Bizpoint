@@ -7,6 +7,7 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     String,
+    UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -22,6 +23,11 @@ class DatasetImport(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __tablename__ = "dataset_imports"
 
     __table_args__ = (
+        UniqueConstraint(
+            "dataset_version_id",
+            "id",
+            name="uq_dataset_imports_version_id",
+        ),
         CheckConstraint(
             "file_format IN ('csv', 'xlsx')",
             name="ck_dataset_imports_file_format",
@@ -95,4 +101,3 @@ class DatasetImport(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         DateTime(timezone=True),
         nullable=True,
     )
-    

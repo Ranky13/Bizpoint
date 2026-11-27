@@ -1,6 +1,8 @@
 # Environment and secrets
 .venv/
 .env
+.env.*
+!.env.example
 
 # Python
 __pycache__/
@@ -16,3 +18,5 @@ data/generated/
 .vscode/
 .idea/
 .DS_Store
+
+
